@@ -1,19 +1,25 @@
 package fr.oyashirox
 
+import fr.oyashirox.entity.Camera
 import java.awt.Desktop
 import java.awt.image.BufferedImage
 import java.nio.file.Paths
 import javax.imageio.ImageIO
 
 fun main(args: Array<String>) {
+    val camera = Camera()
+    val renderer = Renderer(camera)
+
     val image = BufferedImage(1280, 720, BufferedImage.TYPE_INT_ARGB)
 
     for (x in 0 until image.width) {
         for (y in 0 until image.height) {
-            val colorX = Color(x.toDouble()/image.width.toDouble(), 0.0, 0.0)
-            val colorY = Color(0.0, y.toDouble()/image.height.toDouble(), 0.0)
-            val combinedColor = colorX + colorY
-            image.setRGB(x, y, combinedColor.argbColor)
+            val u: Double = x.toDouble() / image.width.toDouble()
+            // Invert Y-axis (world coordinates are Y positive going up, while image is Y positive going down)
+            val v: Double = 1.0 - y.toDouble() / image.width.toDouble()
+            val ray = camera.trace(u, v)
+            val color = renderer.color(ray)
+            image.setRGB(x, y, color.argbColor)
         }
     }
 

@@ -1,6 +1,8 @@
-package fr.oyashirox
+@file:Suppress("NOTHING_TO_INLINE")
 
-@Suppress("unused", "MemberVisibilityCanBePrivate", "NOTHING_TO_INLINE")
+package fr.oyashirox.entity
+
+@Suppress("unused", "MemberVisibilityCanBePrivate")
 data class Color(val r: Int, val g: Int, val b: Int, val a: Int = 0xFF) {
     constructor(r: Byte, g: Byte, b: Byte, a: Byte = 255.toByte()) : this(r.toInt(), g.toInt(), b.toInt(), a.toInt())
     constructor(r: Double, g: Double, b: Double, a: Double = 1.0) : this(
@@ -14,4 +16,10 @@ data class Color(val r: Int, val g: Int, val b: Int, val a: Int = 0xFF) {
 
     inline operator fun plus(o: Color) = Color(r + o.r, g + o.g, b + o.b)
 }
+
+inline operator fun Double.times(v: Color) = Color(
+        this * (v.r / 255.0),
+        this * (v.g / 255.0),
+        this * (v.b / 255.0)
+)
 
