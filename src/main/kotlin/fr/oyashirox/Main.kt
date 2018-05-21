@@ -11,10 +11,10 @@ import javax.imageio.ImageIO
 
 fun main(args: Array<String>) {
     val camera = Camera()
-    val sphere = Sphere(Vector(0.0, 0.0, -1.0), 0.1)
+    val sphere = Sphere(Vector(0.0, 0.0, -1.0), 0.5)
     val renderer = Renderer(camera, world = sphere)
 
-    val image = BufferedImage(1280, 720, BufferedImage.TYPE_INT_ARGB)
+    val image = BufferedImage(1920, 1080, BufferedImage.TYPE_INT_ARGB)
 
     for (x in 0 until image.width) {
         for (y in 0 until image.height) {

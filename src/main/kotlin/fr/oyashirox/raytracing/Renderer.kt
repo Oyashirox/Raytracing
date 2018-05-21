@@ -1,6 +1,7 @@
 package fr.oyashirox.raytracing
 
 import fr.oyashirox.math.Color
+import fr.oyashirox.math.Vector
 import fr.oyashirox.math.map
 import fr.oyashirox.math.times
 import fr.oyashirox.shape.Hitable
@@ -10,11 +11,13 @@ class Renderer(private val camera: Camera, private val world: Hitable) {
 
     private val backgroundTopColor = Color(0.5, 0.7, 1.0)
     private val backgroundBottomColor = Color(1.0, 1.0, 1.0)
-    private val hitColor = Color(1.0, 0.0, 0.0)
 
     fun color(ray: Ray): Color {
-        if (world.hit(ray)) {
-            return hitColor
+        val hitDistance = world.hit(ray)
+        if (hitDistance > 0.0) {
+            val hitPoint = ray.positionAt(hitDistance)
+            val normal = world.normalAt(hitPoint)
+            return normalColor(normal)
         }
         return backgroundColor(ray)
     }
@@ -36,5 +39,11 @@ class Renderer(private val camera: Camera, private val world: Hitable) {
     /** @param y vertical coordinate on the screen. `[0,1]`. 1 is top */
     private fun gradient(y: Double): Color {
         return (1.0 - y) * backgroundBottomColor + y * backgroundTopColor
+    }
+
+    /** Gives a color depending on a normal vector.
+     * @param normal The normal vector (normalized)*/
+    private fun normalColor(normal: Vector): Color {
+        return 0.5 * Color(normal.x + 1.0, normal.y + 1.0, normal.z + 1.0)
     }
 }
