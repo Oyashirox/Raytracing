@@ -1,6 +1,6 @@
 @file:Suppress("NOTHING_TO_INLINE")
 
-package fr.oyashirox.entity
+package fr.oyashirox.math
 
 @Suppress("unused", "MemberVisibilityCanBePrivate")
 data class Color(val r: Int, val g: Int, val b: Int, val a: Int = 0xFF) {

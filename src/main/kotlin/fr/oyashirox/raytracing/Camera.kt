@@ -1,4 +1,7 @@
-package fr.oyashirox.entity
+package fr.oyashirox.raytracing
+
+import fr.oyashirox.math.Vector
+import fr.oyashirox.math.times
 
 @Suppress("unused", "MemberVisibilityCanBePrivate")
 /**

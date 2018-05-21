@@ -1,5 +1,5 @@
 @file:Suppress("NOTHING_TO_INLINE", "unused", "MemberVisibilityCanBePrivate")
-package fr.oyashirox.entity
+package fr.oyashirox.math
 
 import java.lang.Math.abs
 import java.lang.Math.sqrt
