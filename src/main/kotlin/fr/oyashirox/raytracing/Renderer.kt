@@ -13,13 +13,11 @@ class Renderer(private val camera: Camera, private val world: Hitable) {
     private val backgroundBottomColor = Color(1.0, 1.0, 1.0)
 
     fun color(ray: Ray): Color {
-        val hitDistance = world.hit(ray)
-        if (hitDistance > 0.0) {
-            val hitPoint = ray.positionAt(hitDistance)
-            val normal = world.normalAt(hitPoint)
-            return normalColor(normal)
+        val hit = world.hit(ray, 0.0, Double.MAX_VALUE)
+        return when (hit) {
+            is NoHit -> backgroundColor(ray)
+            is HitData -> normalColor(hit.normal)
         }
-        return backgroundColor(ray)
     }
 
     /** Get background color depending on y coordinate */

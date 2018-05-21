@@ -3,6 +3,7 @@ package fr.oyashirox
 import fr.oyashirox.math.Vector
 import fr.oyashirox.raytracing.Camera
 import fr.oyashirox.raytracing.Renderer
+import fr.oyashirox.shape.HitableList
 import fr.oyashirox.shape.Sphere
 import java.awt.Desktop
 import java.awt.image.BufferedImage
@@ -10,9 +11,12 @@ import java.nio.file.Paths
 import javax.imageio.ImageIO
 
 fun main(args: Array<String>) {
-    val camera = Camera()
     val sphere = Sphere(Vector(0.0, 0.0, -1.0), 0.5)
-    val renderer = Renderer(camera, world = sphere)
+    val floorSphere = Sphere(Vector(0.0,-100.5,-1.0), 100.0)
+    val world = HitableList(sphere, floorSphere)
+
+    val camera = Camera()
+    val renderer = Renderer(camera, world)
 
     val image = BufferedImage(1920, 1080, BufferedImage.TYPE_INT_ARGB)
 
