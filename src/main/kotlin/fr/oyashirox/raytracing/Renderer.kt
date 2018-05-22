@@ -5,6 +5,7 @@ import fr.oyashirox.math.Vector
 import fr.oyashirox.math.map
 import fr.oyashirox.math.times
 import fr.oyashirox.shape.Hitable
+import java.util.*
 
 
 class Renderer(private val camera: Camera, private val world: Hitable) {
@@ -13,11 +14,23 @@ class Renderer(private val camera: Camera, private val world: Hitable) {
     private val backgroundBottomColor = Color(1.0, 1.0, 1.0)
 
     fun color(ray: Ray): Color {
-        val hit = world.hit(ray, 0.0, Double.MAX_VALUE)
+        val hit = world.hit(ray, 0.001, Double.MAX_VALUE)
         return when (hit) {
             is NoHit -> backgroundColor(ray)
-            is HitData -> normalColor(hit.normal)
+            is HitData -> 0.5 * color(scatter(hit))
         }
+    }
+
+    private fun scatter(data: HitData) = Ray(data.position, data.position + data.normal + randomUnitSphere())
+
+    private fun randomUnitSphere(): Vector {
+        val random = Random()
+        var vector: Vector
+        do {
+            // Generate a random point in [-1,1] for all component
+            vector = 2.0 * Vector(random.nextDouble(), random.nextDouble(), random.nextDouble()) - Vector(1.0, 1.0, 1.0)
+        } while (vector.length() >= 1.0)
+        return vector
     }
 
     /** Get background color depending on y coordinate */

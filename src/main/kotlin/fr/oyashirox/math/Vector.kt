@@ -28,6 +28,7 @@ class Vector(var x: Double = 0.0, var y: Double = 0.0, var z: Double = 0.0) {
     }
 
     fun toColor() = Color(x, y, z)
+    inline fun sqrt() = Vector(Math.sqrt(x), Math.sqrt(y), Math.sqrt(z))
 }
 
 inline operator fun Double.plus(v: Vector) = Vector(this + v.x, this + v.y, this + v.z)

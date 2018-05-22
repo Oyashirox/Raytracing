@@ -18,6 +18,8 @@ data class Color(val r: Int, val g: Int, val b: Int, val a: Int = 0xFF) {
 
     fun toVector() = Vector((r / 255.0), (g / 255.0), (b / 255.0))
 
+    fun gamma2() = toVector().sqrt().toColor()
+
 }
 
 inline operator fun Double.times(v: Color) = Color(

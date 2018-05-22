@@ -38,7 +38,7 @@ fun main(args: Array<String>) {
 
             // Compute the average of the samples for the current pixel
             val color = (colorVector / aaSample.toDouble()).toColor()
-            image.setRGB(x, y, color.argbColor)
+            image.setRGB(x, y, color.gamma2().argbColor)
         }
     }
 
