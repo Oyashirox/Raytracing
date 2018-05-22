@@ -1,28 +1,11 @@
 @file:Suppress("NOTHING_TO_INLINE", "unused", "MemberVisibilityCanBePrivate")
+
 package fr.oyashirox.math
 
 import java.lang.Math.abs
 import java.lang.Math.sqrt
 
 class Vector(var x: Double = 0.0, var y: Double = 0.0, var z: Double = 0.0) {
-    inline var r: Double
-        get() = x
-        set(value) {
-            x = value
-        }
-
-    inline var g: Double
-        get() = y
-        set(value) {
-            y = value
-        }
-
-    inline var b: Double
-        get() = z
-        set(value) {
-            z = value
-        }
-
     inline operator fun plus(v: Double) = Vector(x + v, y + v, z + v)
     inline operator fun minus(v: Double) = Vector(x - v, y - v, z - v)
     inline operator fun times(v: Double) = Vector(x * v, y * v, z * v)
@@ -43,6 +26,8 @@ class Vector(var x: Double = 0.0, var y: Double = 0.0, var z: Double = 0.0) {
         val l = 1.0f / length()
         return Vector(x * l, y * l, z * l)
     }
+
+    fun toColor() = Color(x, y, z)
 }
 
 inline operator fun Double.plus(v: Vector) = Vector(this + v.x, this + v.y, this + v.z)

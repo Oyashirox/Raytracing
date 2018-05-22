@@ -15,6 +15,9 @@ data class Color(val r: Int, val g: Int, val b: Int, val a: Int = 0xFF) {
     var argbColor: Int = (a shl 24) or (r shl 16) or (g shl 8) or b
 
     inline operator fun plus(o: Color) = Color(r + o.r, g + o.g, b + o.b)
+
+    fun toVector() = Vector((r / 255.0), (g / 255.0), (b / 255.0))
+
 }
 
 inline operator fun Double.times(v: Color) = Color(
