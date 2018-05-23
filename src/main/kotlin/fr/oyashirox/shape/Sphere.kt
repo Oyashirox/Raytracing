@@ -1,5 +1,6 @@
 package fr.oyashirox.shape
 
+import fr.oyashirox.material.Material
 import fr.oyashirox.math.Vector
 import fr.oyashirox.raytracing.Hit
 import fr.oyashirox.raytracing.HitData
@@ -8,7 +9,10 @@ import fr.oyashirox.raytracing.Ray
 import kotlin.math.sqrt
 
 @Suppress("MemberVisibilityCanBePrivate")
-class Sphere(val center: Vector, val radius: Double) : Hitable {
+class Sphere(
+        val center: Vector,
+        val radius: Double,
+        val material: Material) : Hitable {
     /* See [this link][https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-sphere-intersection]
      * for logic.*/
     override fun hit(ray: Ray, min: Double, max: Double): Hit {
@@ -35,13 +39,13 @@ class Sphere(val center: Vector, val radius: Double) : Hitable {
             val distance = (-b - sqrt(delta)) / (2.0 * a)
             if (distance > min && distance < max) {
                 val position = ray.positionAt(distance)
-                result = HitData(distance, position, normalAt(position))
+                result = HitData(distance, position, normalAt(position), material)
             } else {
                 // Test other root
                 val distance2 = (-b + sqrt(delta)) / (2.0 * a)
                 if (distance2 > min && distance2 < max) {
                     val position = ray.positionAt(distance2)
-                    result = HitData(distance2, position, normalAt(position))
+                    result = HitData(distance2, position, normalAt(position), material)
                 }
             }
         }

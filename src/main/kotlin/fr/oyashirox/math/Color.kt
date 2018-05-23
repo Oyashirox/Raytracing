@@ -28,3 +28,9 @@ inline operator fun Double.times(v: Color) = Color(
         this * (v.b / 255.0)
 )
 
+inline operator fun Vector.times(v: Color) = Color(
+        this.x * (v.r / 255.0),
+        this.y * (v.g / 255.0),
+        this.z * (v.b / 255.0)
+)
+

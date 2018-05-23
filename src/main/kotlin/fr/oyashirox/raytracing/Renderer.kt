@@ -5,32 +5,27 @@ import fr.oyashirox.math.Vector
 import fr.oyashirox.math.map
 import fr.oyashirox.math.times
 import fr.oyashirox.shape.Hitable
-import java.util.*
 
 
 class Renderer(private val camera: Camera, private val world: Hitable) {
-
+    private val maxDepth = 50
     private val backgroundTopColor = Color(0.5, 0.7, 1.0)
     private val backgroundBottomColor = Color(1.0, 1.0, 1.0)
 
-    fun color(ray: Ray): Color {
+    fun color(ray: Ray, depth: Int = 0): Color {
         val hit = world.hit(ray, 0.001, Double.MAX_VALUE)
         return when (hit) {
             is NoHit -> backgroundColor(ray)
-            is HitData -> 0.5 * color(scatter(hit))
+            is HitData -> {
+                if(depth < maxDepth) {
+                    val scatter = hit.material.scatter(ray, hit)
+                    when (scatter) {
+                        is ScatterData -> return scatter.attenuation * color(scatter.scatteredRay, depth + 1)
+                    }
+                }
+                return Color(0,0,0)
+            }
         }
-    }
-
-    private fun scatter(data: HitData) = Ray(data.position, data.position + data.normal + randomUnitSphere())
-
-    private fun randomUnitSphere(): Vector {
-        val random = Random()
-        var vector: Vector
-        do {
-            // Generate a random point in [-1,1] for all component
-            vector = 2.0 * Vector(random.nextDouble(), random.nextDouble(), random.nextDouble()) - Vector(1.0, 1.0, 1.0)
-        } while (vector.length() >= 1.0)
-        return vector
     }
 
     /** Get background color depending on y coordinate */
@@ -54,6 +49,7 @@ class Renderer(private val camera: Camera, private val world: Hitable) {
 
     /** Gives a color depending on a normal vector.
      * @param normal The normal vector (normalized)*/
+    @Suppress("unused")
     private fun normalColor(normal: Vector): Color {
         return 0.5 * Color(normal.x + 1.0, normal.y + 1.0, normal.z + 1.0)
     }
