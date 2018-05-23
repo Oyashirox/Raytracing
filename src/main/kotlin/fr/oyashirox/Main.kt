@@ -1,6 +1,7 @@
 package fr.oyashirox
 
 import fr.oyashirox.material.Lambertian
+import fr.oyashirox.material.Metal
 import fr.oyashirox.math.Vector
 import fr.oyashirox.raytracing.Camera
 import fr.oyashirox.raytracing.Renderer
@@ -14,9 +15,11 @@ import javax.imageio.ImageIO
 
 fun main(args: Array<String>) {
     val aaSample = 100
+    val metalSphere = Sphere(Vector(-1.0, 0.0, -1.0), 0.5, Metal(Vector(0.8, 0.8, 0.8),0.0))
+    val metalSphere2 = Sphere(Vector(1.0, 0.0, -1.0), 0.5, Metal(Vector(0.8, 0.6, 0.1), 0.3))
     val sphere = Sphere(Vector(0.0, 0.0, -1.0), 0.5, Lambertian(Vector(0.5, 0.5, 0.5)))
     val floorSphere = Sphere(Vector(0.0, -100.5, -1.0), 100.0, Lambertian(Vector(0.8, 0.8, 0.0)))
-    val world = HitableList(sphere, floorSphere)
+    val world = HitableList(metalSphere, sphere, metalSphere2, floorSphere)
 
     val camera = Camera()
     val renderer = Renderer(camera, world)
