@@ -8,7 +8,7 @@ fun map(value: Double, start: Double, end: Double, newStart: Double, newEnd: Dou
 }
 
 fun randomUnitSphere(): Vector {
-    val random = Random()
+    val random = SplittableRandom()
     var vector: Vector
     do {
         // Generate a random point in [-1,1] for all component
