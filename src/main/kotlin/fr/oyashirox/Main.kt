@@ -15,16 +15,31 @@ import javax.imageio.ImageIO
 
 fun main(args: Array<String>) {
     val aaSample = 100
-    val metalSphere = Sphere(Vector(-1.0, 0.0, -1.0), 0.5, Metal(Vector(0.8, 0.8, 0.8),0.0))
-    val metalSphere2 = Sphere(Vector(1.0, 0.0, -1.0), 0.5, Metal(Vector(0.8, 0.6, 0.1), 0.3))
-    val sphere = Sphere(Vector(0.0, 0.0, -1.0), 0.5, Lambertian(Vector(0.5, 0.5, 0.5)))
-    val floorSphere = Sphere(Vector(0.0, -100.5, -1.0), 100.0, Lambertian(Vector(0.8, 0.8, 0.0)))
+
+    val metalSphere = Sphere(
+            Vector(-1.0, 0.0, -1.0),
+            0.5,
+            Metal(Vector(0.8, 0.8, 0.8), 0.05))
+    val metalSphere2 = Sphere(
+            Vector(1.0, 0.0, -1.0), 0.5,
+            Metal(Vector(0.8, 0.6, 0.1), 0.3))
+    val sphere = Sphere(
+            Vector(0.0, 0.0, -1.0),
+            0.5,
+            Lambertian(Vector(0.5, 0.5, 0.5)))
+    val floorSphere = Sphere(
+            Vector(0.0, -100.5, -1.0),
+            100.0,
+            Lambertian(Vector(0.8, 0.8, 0.0)))
     val world = HitableList(metalSphere, sphere, metalSphere2, floorSphere)
 
-    val camera = Camera()
-    val renderer = Renderer(camera, world)
+    val camera = Camera(
+            lookfrom = Vector(-2.0, 2.0, 1.0),
+            lookat = Vector(0.0, 0.0, -1.0)
+    )
+    val renderer = Renderer(world)
 
-    val image = BufferedImage(1920, 1080, BufferedImage.TYPE_INT_ARGB)
+    val image = BufferedImage(1280, 720, BufferedImage.TYPE_INT_ARGB)
     val random = Random()
 
     for (x in 0 until image.width) {

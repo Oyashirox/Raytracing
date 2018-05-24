@@ -2,12 +2,10 @@ package fr.oyashirox.raytracing
 
 import fr.oyashirox.math.Color
 import fr.oyashirox.math.Vector
-import fr.oyashirox.math.map
 import fr.oyashirox.math.times
 import fr.oyashirox.shape.Hitable
 
-
-class Renderer(private val camera: Camera, private val world: Hitable) {
+class Renderer(private val world: Hitable) {
     private val maxDepth = 50
     private val backgroundTopColor = Color(0.5, 0.7, 1.0)
     private val backgroundBottomColor = Color(1.0, 1.0, 1.0)
@@ -30,9 +28,7 @@ class Renderer(private val camera: Camera, private val world: Hitable) {
 
     /** Get background color depending on y coordinate */
     private fun backgroundColor(ray: Ray): Color {
-        val minY = camera.lowerLeft.y
-        val maxY = (camera.lowerLeft + camera.vertical).y
-        val mappedValue = map(ray.direction.y, minY, maxY, 0.0, 1.0)
+        val mappedValue = 0.5 * (ray.direction.normalize().y + 1.0)
         return gradient(mappedValue)
     }
 

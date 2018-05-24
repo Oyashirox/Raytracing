@@ -5,7 +5,7 @@ package fr.oyashirox.math
 import java.lang.Math.abs
 import java.lang.Math.sqrt
 
-class Vector(var x: Double = 0.0, var y: Double = 0.0, var z: Double = 0.0) {
+data class Vector(var x: Double = 0.0, var y: Double = 0.0, var z: Double = 0.0) {
     inline operator fun plus(v: Double) = Vector(x + v, y + v, z + v)
     inline operator fun minus(v: Double) = Vector(x - v, y - v, z - v)
     inline operator fun times(v: Double) = Vector(x * v, y * v, z * v)
@@ -15,12 +15,18 @@ class Vector(var x: Double = 0.0, var y: Double = 0.0, var z: Double = 0.0) {
     inline operator fun minus(v: Vector) = Vector(x - v.x, y - v.y, z - v.z)
     inline operator fun times(v: Vector) = Vector(x * v.x, y * v.y, z * v.z)
     inline operator fun div(v: Vector) = Vector(x / v.x, y / v.y, z / v.z)
+    inline operator fun unaryMinus() = Vector(-x, -y, -z)
 
     inline fun abs() = Vector(abs(x), abs(y), abs(z))
     inline fun length() = sqrt(length2())
     inline fun length2() = x * x + y * y + z * z
     inline fun distanceTo(o: Vector) = (this - o).length()
     inline infix fun dot(o: Vector) = x * o.x + y * o.y + z * o.z
+    inline infix fun cross(o: Vector) = Vector(
+            y * o.z - z * o.y,
+            z * o.x - x * o.z,
+            x * o.y - y * o.x
+    )
 
     fun normalize(): Vector {
         val l = 1.0f / length()
